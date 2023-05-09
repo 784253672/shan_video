@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>文件拖入框</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        #drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            width: 400px;
+            height: 200px;
+            font-size: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin: auto;
+        }
+
+        #drop-area.hover {
+            border-color: #0b0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drop-area">
+        <p>将文件拖到此处</p>
+    </div>
+    <ul id="file-list"></ul>
+
+    <script>
+        // 阻止默认的拖放事件
+        function preventDefaults(e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+
+        // 拖入文件时更新拖入框样式
+        function highlight(e) {
+            const dropArea = document.getElementById('drop-area')
+            dropArea.classList.add('hover')
+        }
+
+        // 拖出文件时更新拖入框样式
+        function unhighlight(e) {
+            const dropArea = document.getElementById('drop-area')
+            dropArea.classList.remove('hover')
+        }
+
+        // 放置文件时触发的事件
+        function handleDrop(e) {
+            const fileList = document.getElementById('file-list')
+            const files = e.dataTransfer.files
+
+            // 遍历拖入的文件
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i]
+                const li = document.createElement('li')
+
+                // 显示文件名
+                const span = document.createElement('span')
+                span.innerText = file.name
+                li.appendChild(span)
+
+                // 将 li 元素添加到列表中
+                fileList.appendChild(li)
+            }
+        }
+
+        // 添加事件监听器
+        const dropArea = document.getElementById('drop-area')
+            ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false)
+            })
+            ;['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false)
+            })
+            ;['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false)
+            })
+        dropArea.addEventListener('drop', handleDrop, false)
+    </script>
+</body>
+
+</html>
