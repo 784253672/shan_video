@@ -26,16 +26,28 @@
         #drop-area.hover {
             border-color: #0b0;
         }
+
+        .open-file {
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-    <div id="drop-area">
+    <!-- <div id="drop-area">
         <p>将文件拖到此处</p>
+    </div> -->
+    <div class="open-file" id="open-file">
+        <p onclick=openFile()>打开文件</p>
     </div>
     <ul id="file-list"></ul>
 
     <script>
+        const { ipcRenderer } = require('electron')
+        function openFile() {
+            console.log(111);
+            ipcRenderer.send("open-file");
+        }
         // 阻止默认的拖放事件
         function preventDefaults(e) {
             e.preventDefault()
@@ -75,17 +87,17 @@
         }
 
         // 添加事件监听器
-        const dropArea = document.getElementById('drop-area')
-            ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false)
-            })
-            ;['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false)
-            })
-            ;['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false)
-            })
-        dropArea.addEventListener('drop', handleDrop, false)
+        // const dropArea = document.getElementById('drop-area')
+        //     ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        //         dropArea.addEventListener(eventName, preventDefaults, false)
+        //     })
+        //     ;['dragenter', 'dragover'].forEach(eventName => {
+        //         dropArea.addEventListener(eventName, highlight, false)
+        //     })
+        //     ;['dragleave', 'drop'].forEach(eventName => {
+        //         dropArea.addEventListener(eventName, unhighlight, false)
+        //     })
+        // dropArea.addEventListener('drop', handleDrop, false)
     </script>
 </body>
 
