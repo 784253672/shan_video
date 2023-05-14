@@ -27,14 +27,13 @@ app.whenReady().then(() => {
   app.on("activate", function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-  // 主线程-接收
+  // 主线程-接收-打开文件
   ipcMain.on("open-file", () => {
     dialog
       .showOpenDialog({
         properties: ["openFile", "multiSelections", "openDirectory"],
       })
       .then((result) => {
-        console.log(result.filePaths);
         const os = require("os");
         const path = require("path");
         const { spawn } = require("child_process");
@@ -42,7 +41,7 @@ app.whenReady().then(() => {
 
         const input_folder = result.filePaths;
         const output_folder = result.filePaths;
-        const watermark_file = "F:\\SVN\\UE4打包HTML5视频\\P3DD009\\1.png";
+        const watermark_file = "C:\\Users\\jia\\Desktop\\1.png";
 
         // 指定要使用的 GPU 加速器的名称
         const gpu_accelerator = "cuda";

@@ -39,14 +39,17 @@
     </div> -->
     <div class="open-file" id="open-file">
         <p onclick=openFile()>打开文件</p>
+        <p onclick=openImg()>打开图片</p>
     </div>
     <ul id="file-list"></ul>
 
     <script>
         const { ipcRenderer } = require('electron')
         function openFile() {
-            console.log(111);
             ipcRenderer.send("open-file");
+        }
+        function openImg() {
+            ipcRenderer.send("open-img");
         }
         // 阻止默认的拖放事件
         function preventDefaults(e) {
